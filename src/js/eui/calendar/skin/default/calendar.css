@@ -1,0 +1,14 @@
+.eui-cal-grid{width:280px; border:1px solid #666;}
+.eui-cal-grid th{background:#ddd;}
+.eui-cal-grid td{text-align:center;}
+
+.eui-cal-weekend{background:#eee;}
+.eui-cal-today{background-color:#f00;}
+
+.eui-cal-month-switch{width:280px; zoom:1;}
+.eui-cal-month-switch:after{content:"."; visibility:hidden; width:0; height:0;}
+.eui-cal-month-switch-bar{margin:auto; text-align:center;}
+.eui-cal-month-switch-month{border:0; padding:0; background:none;}
+.eui-cal-month-switch-month-current{font-weight:bold;}
+.eui-cal-month-switch-preview{float:left;}
+.eui-cal-month-switch-next{float:right;}

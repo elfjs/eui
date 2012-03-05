@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>eui test</title>
+
+</head>
+<body>
+
+<div id="Holder">
+	<div>
+		<div ui="type:eui.Base;id:base;">UI基类</div>
+	</div>
+	<div>
+		<button type="button" ui="type:eui.form.Button;id:button">按钮</button>
+	</div>
+</div>
+
+<script type="text/javascript" src="../../jslib/release/elf.js" id="Elfjs"></script>
+
+<script type="text/javascript" src="../src/eui.js"></script>
+<script type="text/javascript" src="../src/eui/Engine.js"></script>
+<script type="text/javascript" src="../src/eui/OptionsParser.js"></script>
+<script type="text/javascript" src="../src/eui/OptionsParser/toBoolean.js"></script>
+<script type="text/javascript" src="../src/eui/Base.js"></script>
+
+<script type="text/javascript" src="../src/eui/form.js"></script>
+<script type="text/javascript" src="../src/eui/form/Button.js"></script>
+
+<script type="text/javascript" src="../src/eui/~shortcut/~dispatcher/string.js"></script>
+<script type="text/javascript" src="../src/eui/~shortcut/~dispatcher/object.js"></script>
+
+<script type="text/javascript">
+eui.Engine.AUTO_INITIALIZE = true;
+
+var time = (new Date).getTime();
+
+elf(function () {
+	for (var i = 0; i < 1000; i++) {
+		//eui({type: 'eui.form.Button', tplContent: 'Button'}).appendTo(document.body);
+		(new eui.form.Button({tplContent: 'Button'})).appendTo(document.body);
+	}
+	
+	
+	
+	eui('button').on(eui.form.Button.EVENT_CLICK, function (ev) {
+		alert(this.id);
+	});
+	
+	setTimeout(function () {
+	
+		alert((new Date).getTime() - time);
+	}, 0);
+});
+</script>
+</body>
+</html>

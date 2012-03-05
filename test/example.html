@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Grid类示例</title>
+<style>
+table{width:100%; border-collapse:collapse;}
+</style>
+</head>
+
+<body class="report">
+<div id="MainPage">
+	<div id="Holder">
+		<div id="MainBody">
+			<div id="MainListTableWrap">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" language="javascript" src="../../../../release/js.part.js"></script>
+<script type="text/javascript" language="javascript" src="grid.js"></script>
+<script type="text/javascript">
+var ListDetail = js.util.Class.create({
+	wrapTpl: '<ul>#{content}</ul>',
+	
+	updateData: function (data, autoRender) {
+		this._data = data;
+		
+		if (autoRender) {
+			this.render();
+		}
+	},
+	createContentHTML: function () {
+		var html = [];
+		
+		var detailData = this._data[this.dataKey];
+		
+		if (detailData) {
+			for (var i = detailData.length - 1; i >= 0; i--) {
+				html.unshift('<li>', detailData[i], '</li>');
+			}
+		}
+		
+		return html.join('');
+	}
+}, DOMGroupView);
+
+ListDetail.Factory = function (args) {
+	return new ListDetail(js.util.Class.extend({dataKey: 5}, args));
+};
+
+var DetailRow = js.util.Class.create({
+	createFooter: ListDetail.Factory
+}, grid.XRow);
+
+
+
+//根据生成列模板函数
+function columnTemplate(tpl) {
+	return function (data) {
+		return js.text.Template.format.apply(null, [tpl].concat(data));
+	}
+}
+
+function formula(form, data) {
+	var expr = form.replace(/\[(\w+)\]/g, function(matches,token,index){
+		return data[token];
+	});
+	var result = (new Function('return (' + expr + ');'))();
+	
+	return result;
+}
+
+function formulaTemplate(form) {
+	return function (data) {
+		return formula(form, data);
+	};
+}
+
+var NewCell = js.util.Class.create({}, grid.Cell);
+
+var TPL_COLUMN_SITE = '<a href="http://www.baidu.com/s?wd=#{1}&tn=#{0}" title="#{2}">#{1}</a>';
+
+var gridTest = new grid.GridView({
+	wrapId: 'MainListTableWrap',
+	column: [
+		{header:'网站', type: NewCell, dataKey: columnTemplate(TPL_COLUMN_SITE), sortable: true, property: {'class': 'site'}},
+		{header:'访问量', dataKey: 3, sortable: true, property: {'class': 'number', width: 100}},
+		{header:'点击量', dataKey: 4, property: {width: 100}},
+		{header:'点击率', dataKey: formulaTemplate('Math.round([4]/[3]*100)/100'), property: {'class': 'percent', width: 100}}
+	],
+	sortField: 1,
+	sortOrder: 1,
+	
+	RowType: DetailRow
+});
+
+gridTest.updateData([
+	//['id', 'name', 'site', 'pv', 'click', 'extra']
+	[1, 'o2sky', 'o2sky.cn', 162, 23],
+	[2, 'aquarter', 'aquarter.cn', 19, 2, [3, 4, 5, 3]],
+	[3, 'tukul', 'tukul.net', 2, 0, [23, 53, 1, 3]],
+	[4, 'yanjunyi', 'yanjunyi.com', 1, 0, [2, 4, 8, 0]]
+], true);
+
+/*
+var dGrid = new DataGrid({
+	wrapId: 'MainListTableWrap',
+	column: [
+		{header:'网站', template: '<a href="#{link}" title="#{link}">#{text}</a>', sortable: true, property: {'class': 'site'}},
+		{header:'访问量', dataKey: 1, sortable: true, property: {'class': 'number'}},
+		{header:'点击量', dataKey: 2},
+		{header:'点击率', formula: 'Math.round([2]/[1]*100)/100', template: '#{1}%' property: {'class': 'percent'}}
+	]
+});
+*/
+//dGrid.updateData(gridData);
+
+
+</script>
+
+</body>
+</html>
