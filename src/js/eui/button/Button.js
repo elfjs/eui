@@ -11,7 +11,14 @@
 ///import js.dom.Event;
 ///import eui.Base;
 
-eui.form.Button = js.util.Class.create({
+/**
+ * @class eui.button.Button
+ * @extends eui.Base
+
+基本按钮控件。
+
+ */
+eui.button.Button = js.util.Class.create({
 	constructor: function (options) {
 		eui.Base.call(this, options);
 	}
