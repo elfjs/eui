@@ -12,44 +12,78 @@
 		<div ui="type:eui.Base;id:base;">UI基类</div>
 	</div>
 	<div>
-		<button type="button" ui="type:eui.form.Button;id:button">按钮</button>
+		<button type="button" ui="type:eui.button.Button;id:button">按钮</button>
 	</div>
+	<form ui="type:eui.form.Form;id:form" action="">
+		<fieldset>
+			<legend>表单测试</legend>
+			<table>
+				<tbody>
+					<tr>
+						<th><label>邮箱：</label></th>
+						<td><input type="email" name="email" /></td>
+					</tr>
+					<tr>
+						<th><label>账号：</label></th>
+						<td><input type="text" name="username" /></td>
+					</tr>
+					<tr>
+						<th><label>密码：</label></th>
+						<td><input type="password" name="password" /></td>
+					</tr>
+					<tr>
+						<th><label>重复密码：</label></th>
+						<td><input type="password" name="repeat" /></td>
+					</tr>
+				</tbody>
+			</table>
+			<p>点击提交表示您已阅读并同意我们的<a href="/agreement.html" target="_blank">服务条款</a></p>
+			<p><button type="submit">提交</button></p>
+		</fieldset>
+	</form>
 </div>
 
-<script type="text/javascript" src="../../jslib/release/elf.js" id="Elfjs"></script>
+<script type="text/javascript" src="lib/elf.js" id="Elfjs"></script>
 
-<script type="text/javascript" src="../src/eui.js"></script>
-<script type="text/javascript" src="../src/eui/Engine.js"></script>
-<script type="text/javascript" src="../src/eui/OptionsParser.js"></script>
-<script type="text/javascript" src="../src/eui/OptionsParser/toBoolean.js"></script>
-<script type="text/javascript" src="../src/eui/Base.js"></script>
+<script type="text/javascript" src="../src/js/eui.js"></script>
+<script type="text/javascript" src="../src/js/eui/util.js"></script>
+<script type="text/javascript" src="../src/js/eui/util/OptionsParser.js"></script>
+<script type="text/javascript" src="../src/js/eui/util/OptionsParser/toBoolean.js"></script>
 
-<script type="text/javascript" src="../src/eui/form.js"></script>
-<script type="text/javascript" src="../src/eui/form/Button.js"></script>
+<script type="text/javascript" src="../src/js/eui/Engine.js"></script>
+<script type="text/javascript" src="../src/js/eui/~shortcut/~dispatcher/string.js"></script>
+<script type="text/javascript" src="../src/js/eui/~shortcut/~dispatcher/object.js"></script>
 
-<script type="text/javascript" src="../src/eui/~shortcut/~dispatcher/string.js"></script>
-<script type="text/javascript" src="../src/eui/~shortcut/~dispatcher/object.js"></script>
+<script type="text/javascript" src="../src/js/eui/Component.js"></script>
+<script type="text/javascript" src="../src/js/eui/IMouseEventHanders.js"></script>
+
+<script type="text/javascript" src="../src/js/eui/form.js"></script>
+<script type="text/javascript" src="../src/js/eui/form/INativeComponent.js"></script>
+<script type="text/javascript" src="../src/js/eui/form/Form.js"></script>
+
+<script type="text/javascript" src="../src/js/eui/button.js"></script>
+<script type="text/javascript" src="../src/js/eui/button/Button.js"></script>
 
 <script type="text/javascript">
 eui.Engine.AUTO_INITIALIZE = true;
 
-var time = (new Date).getTime();
-
 elf(function () {
+	var time = Date.now();
+	
 	for (var i = 0; i < 1000; i++) {
-		//eui({type: 'eui.form.Button', tplContent: 'Button'}).appendTo(document.body);
-		(new eui.form.Button({tplContent: 'Button'})).appendTo(document.body);
+		// eui({type: 'eui.button.Button'}).appendTo(document.body);
+		// (new eui.button.Button({content: i, disabled: !(i % 2)})).appendTo(document.body);
 	}
 	
 	
 	
-	eui('button').on(eui.form.Button.EVENT_CLICK, function (ev) {
+	eui('button').on(eui.button.Button.EVENT_CLICK, function (ev) {
 		alert(this.id);
 	});
 	
 	setTimeout(function () {
 	
-		alert((new Date).getTime() - time);
+		console.log(Date.now() - time);
 	}, 0);
 });
 </script>

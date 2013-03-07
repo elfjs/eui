@@ -20,6 +20,8 @@ eui.Engine = {
 	 */
 	UI_ATTR_KEY: 'ui',
 	
+	UI_ID_ATTR: 'data-eui',
+	
 	/**
 	 * @property eui.Engine.AUTO_INITIALIZE
 	 * @type {String}
@@ -51,7 +53,7 @@ eui.Engine = {
 	 * @return {Object}
 	 */
 	get: function (id) {
-		return id instanceof eui.Base ? id : (eui.Engine._set[id] || null);
+		return id instanceof eui.Component ? id : (eui.Engine._set[id] || null);
 	},
 	
 	/**
@@ -67,12 +69,13 @@ eui.Engine = {
 		var Engine = eui.Engine;
 		var nodeSet = (nodeTree || document).getElementsByTagName('*'),
 			queue = [],
+			i;
 			context = context || {};
 		var count = 0;
-		for (var i = nodeSet.length - 1; i >= 0; i--) {
+		for (i = nodeSet.length - 1; i >= 0; i--) {
 			queue.push(nodeSet[i]);
 		}
-		for (var i = queue.length - 1; i >= 0; i--) {
+		for (i = queue.length - 1; i >= 0; i--) {
 			Engine.make(queue[i], context) && count++;
 		}
 		
@@ -94,8 +97,9 @@ eui.Engine = {
 			ret = null;
 		if (ui) {
 			var data = js.dom.Style.parseJSON(ui);
-			data.wrapId = node.id || (node.id = js.util.Global.guid(Engine.UI_ATTR_KEY));
+			data.mainId = node.id || (node.id = js.util.Global.guid(Engine.UI_ATTR_KEY));
 			ret = Engine.create(data, context);
+			node.removeAttribute(Engine.UI_ATTR_KEY);
 		}
 		return ret;
 	},
@@ -174,5 +178,33 @@ eui.Engine = {
 		}
 		
 		wrap = null;
+	},
+	
+	getComponentsByContainer: function ( container ) {
+		var Engine = eui.Engine;
+		var els = container.getElementsByTagName( '*' );
+		var len = els.length;
+		var i = 0;
+		var controlName;
+		var result = [];
+			
+		for ( ; i < len; i++ ) {
+			controlName = els[ i ].getAttribute( Engine.UI_ID_ATTR );
+			if ( controlName ) {
+				result.push( Engine.get( controlName ) );
+			}
+		}
+		
+		return result;
+	},
+		
+	/**
+	 * @enum
+	 * @static
+	 * @property eui.Engine.OptionsParser 参数解析器集合
+	 * @type {Object}
+	 */
+	OptionsParser: {
+		disabled: eui.util.OptionsParser.toBoolean
 	}
 };

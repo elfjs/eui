@@ -8,7 +8,7 @@
  */
 
 ///import js.util.Type;
-///import eui.OptionsParser;
+///import eui.util.OptionsParser;
 
 /**
  * 字符串转换为数字类型
@@ -19,6 +19,6 @@
  * 
  * @return {Boolean}
  */
-eui.OptionsParser.toNumber = function (arg) {
+eui.util.OptionsParser.toNumber = function (arg) {
 	return js.util.Type.isNumber(arg) ? arg : parseFloat(arg);
 };

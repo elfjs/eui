@@ -8,7 +8,7 @@
  */
 
 ///import js.util.Type;
-///import eui.OptionsParser;
+///import eui.util.OptionsParser;
 
 /**
  * 字符串转换为布尔类型
@@ -19,11 +19,11 @@
  * 
  * @return {Boolean}
  */
-eui.OptionsParser.toBoolean = function (arg) {
-	var intValue = parseInt(arg);
+eui.util.OptionsParser.toBoolean = function (arg) {
+	var intValue = parseInt(arg, 10);
 	return js.util.Type.isString(arg) ?
-		(isNaN(intValue)
-			? (arg == 'false' ? false : true)
+		(isNaN(intValue) ?
+			(arg == 'false' ? false : true)
 			: !!intValue)
 		: arg;
 };
